@@ -76,6 +76,7 @@ void soft_timer_deinit(void) {
     restore_irq_pri(irq_state);
 }
 
+#if MICROPY_ENABLE_SCHEDULER
 // Must be executed at IRQ_PRI_PENDSV
 void soft_timer_handler(void) {
     uint32_t ticks_ms = uwTick;
@@ -102,6 +103,7 @@ void soft_timer_handler(void) {
         soft_timer_schedule_systick(heap->expiry_ms);
     }
 }
+#endif
 
 void soft_timer_gc_mark_all(void) {
     // Mark all soft timer nodes that are allocated on the GC-heap.
